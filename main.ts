@@ -1,10 +1,18 @@
+function setLevel (level: number) {
+    if (level == 1) {
+        tiles.setCurrentTilemap(tilemap`level2`)
+    }
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
         mySprite.vy = -200
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
-    game.gameOver(false)
+    // game.gameOver(false)
+    if (info.score() == 20) {
+        setLevel(1)
+    }
 })
 let projectile: Sprite = null
 let mySprite: Sprite = null
@@ -35,12 +43,9 @@ mySprite = sprites.create(img`
     `, SpriteKind.Player)
 tiles.placeOnTile(mySprite, tiles.getTileLocation(1, 5))
 mySprite.ay = 500
-
 info.setScore(0)
-
 game.onUpdateInterval(randint(500, 1500), function () {
-    speed -= 5
-    
+    speed += 0 - 5
     projectile = sprites.createProjectileFromSide(img`
         . . . . . . 8 8 . . . . . . . 
         . . . . . 6 7 5 6 . . . . . . 
