@@ -1,18 +1,15 @@
-function setLevel (level: number) {
-    if (level == 1) {
-        tiles.setCurrentTilemap(tilemap`level2`)
-    }
-}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
         mySprite.vy = -200
     }
+    if (info.score() == 20) {
+        game.gameOver(true)
+        game.setGameOverEffect(true, effects.melt)
+    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
-    // game.gameOver(false)
-    if (info.score() == 20) {
-        setLevel(1)
-    }
+    game.gameOver(false)
+    music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
 })
 let projectile: Sprite = null
 let mySprite: Sprite = null
@@ -67,5 +64,5 @@ game.onUpdateInterval(randint(500, 1500), function () {
         . . . . . e e e e . . . . . . 
         `, speed, 0)
     tiles.placeOnTile(projectile, tiles.getTileLocation(9, 5))
-    info.changeScoreBy(2)
+    info.changeScoreBy(1)
 })
